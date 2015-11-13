@@ -1,0 +1,17 @@
+language: python
+python:
+    - 3.5
+    - 3.4
+    - 3.3
+    - 2.7
+sudo: false
+before_install:
+    - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
+    
+install:
+    - pip install -f travis-wheels/wheelhouse -e . coveralls -r requirements.txt
+    - pip install  -f travis-wheels/wheelhouse jupyter_docker_kernel[test]
+script:
+    - nosetests --with-coverage --cover-package jupyter_docker_kernel jupyter_docker_kernel
+after_success:
+    - coveralls
